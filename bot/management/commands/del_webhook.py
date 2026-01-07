@@ -1,39 +1,20 @@
 import asyncio
-from aiogram import Bot
-from aiogram.client.default import DefaultBotProperties
 from django.core.management.base import BaseCommand
+from aiogram import Bot
 from config import settings
 
 
 class Command(BaseCommand):
-    help = "Clear old cache and old requests for the bot."
+    help = "Delete webhook and clear pending updates"
 
     def handle(self, *args, **kwargs):
-        """
-        Clear old cache and old requests for the bot.
-        """
-        print("Clearing old cache and requests...")
-        asyncio.run(self.clear_cache())
+        asyncio.run(self.delete_webhook())
 
-    async def clear_cache(self):
-        """
-        Delete old webhook and clear cache.
-        """
-        bot = Bot(
-            token=settings.BOT_TOKEN, 
-            default=DefaultBotProperties(parse_mode="HTML")
-        )
+    async def delete_webhook(self):
+        bot = Bot(token=settings.BOT_TOKEN)
 
         try:
-            # Get current webhook info
-            webhook_info = await bot.get_webhook_info()
-            print("Current Webhook Info:", webhook_info)
-
-            # If there is an existing webhook, delete it
-            if webhook_info.url:
-                await bot.delete_webhook(drop_pending_updates=True)
-                print("Old webhook deleted.")
-
-            print("Old cache and requests cleared.")
+            await bot.delete_webhook(drop_pending_updates=True)
+            print("🧹 Webhook DELETED and cache cleared")
         finally:
             await bot.session.close()

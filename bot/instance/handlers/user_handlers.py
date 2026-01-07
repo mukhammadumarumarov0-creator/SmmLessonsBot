@@ -90,7 +90,6 @@ async def start_register(message: types.Message, state: FSMContext):
     await message.answer(ask_name_message, parse_mode="HTML")
 
 
-
 @user_router.message(RegisterProcess.full_name)
 async def fullname_register(message: types.Message, state: FSMContext):
     if not message.text or not await validate_full_name(message.text):
@@ -151,9 +150,9 @@ async def phone_register(message: types.Message, state: FSMContext):
 
     await state.clear()
     await message.answer(don_message, parse_mode="HTML")
-    await asyncio.sleep(12)
+    await asyncio.sleep(30)
     await message.answer(course_message, parse_mode="HTML", reply_markup=btn_admin)
-    await asyncio.sleep(10)
+    await asyncio.sleep(20)
     try:
         media = InputMediaPhoto(media=FSInputFile("media/smm_intro.jpg"))
         await message.answer_media_group(media=[media])
@@ -163,7 +162,7 @@ async def phone_register(message: types.Message, state: FSMContext):
     
 
     # 15 soniya kechikkan post
-    await asyncio.sleep(20)
+    await asyncio.sleep(60)
     await message.answer(text=post_message, parse_mode="HTML", reply_markup=btn)
 
 
@@ -248,7 +247,7 @@ async def send_question(message: types.Message, state: FSMContext):
         if score < total / 2:
             result_text += "⚠️ Afsuski Natijangiz past \n 😎 Lekin tashvishlanmang! \n 🚀Videoni qayta ko‘ring va yana urinib ko‘ring! \n"
             await message.answer(result_text)
-            await asyncio.sleep(5)
+            await asyncio.sleep(10)
             lesson = await sync_to_async(lambda: Lesson.objects.select_related("video").get(id=data["lesson_id"]))()
             if lesson.video and lesson.video.url:
                 await message.answer_video(
@@ -260,13 +259,13 @@ async def send_question(message: types.Message, state: FSMContext):
             if score == total :
                 result_text += "🔥 Aqil bovar qilmaydi! \n 🌟 Juda yaxshi natija! Siz tug‘ma SMMchisiz 💪\n 🚀 Bilimlaringizni ishga soling va yangi cho‘qqilarni zabt eting! \n"
                 await message.answer(result_text)
-                await asyncio.sleep(5)
+                await asyncio.sleep(10)
                 await send_next_lesson(message, data["lesson_id"])
                 return
             
             result_text += "👍 Yaxshi ishladingiz! \n 💥 Harakatlaringizni to‘xtatmang,\n 📊 SMM dunyosi sizdan katta natijalar kutmoqda! \n"
             await message.answer(result_text)
-            await asyncio.sleep(5)
+            await asyncio.sleep(10)
             await send_next_lesson(message, data["lesson_id"])
 
         await state.clear()

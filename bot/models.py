@@ -45,8 +45,9 @@ class Lesson(models.Model):
 class User(AbstractUser):
     full_name = models.CharField(max_length=200, null=True, blank=True)
     has_paid = models.BooleanField(default=False)
+    username = models.CharField(max_length=50, null=True, blank=True,unique=True)
     phone = models.CharField(max_length=20, null=True, blank=True)
-    chat_id = models.BigIntegerField(null=True, blank=True)
+    chat_id = models.BigIntegerField(null=True, blank=True,unique=True)
     is_watched = models.BooleanField(default=False)  # progress flag
 
     def __str__(self):

@@ -5,10 +5,10 @@ from decouple import config
 from datetime import datetime
 from datetime import datetime
 import asyncio
-from decouple import config
- 
-SERVICE_ACCOUNT_FILE = config("SERVICE_ACCOUNT_FILE")
-SCOPES = [config("SCOPES")]
+
+
+SERVICE_ACCOUNT_FILE = 'config/zamonbot.json'
+SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
 credentials = service_account.Credentials.from_service_account_file(
     SERVICE_ACCOUNT_FILE,
